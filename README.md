@@ -81,7 +81,7 @@ import deepcut
 deepcut.tokenize('ตัดคำได้ดีมาก')
 
 # if use custom dicts from mongodb
-deepcut.tokenize('ตัดคำได้ดีมาก', 'mongo')
+deepcut.tokenize('ตัดคำได้ดีมาก', 'db')
 ```
 
 Output will be in list format
