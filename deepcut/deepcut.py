@@ -21,7 +21,7 @@ weight_path = os.path.join(module_path, 'weight', 'cnn_without_ne_ab.h5')
 model = get_convo_nn2()
 model.load_weights(weight_path)
 
-def tokenize(text):
+def tokenize(text, useType='file'):
     """
     Tokenize given Thai text string
 
@@ -68,14 +68,23 @@ def tokenize(text):
     word_end = list(y_predict[1:]) + [1]
 
     try:
-        with open('custom_dict.txt') as f:
-            word_list = f.readlines()
+        if useType == 'db':
+            from .connectors import MongoConnector
+            mongoObj = MongoConnector(db='mojilex_public')
+            client = mongoObj.connect()
+            collection = client.custom_dicts
+            custom_dicts = collection.find({})
+            word_list = list(map(lambda x: x['word'], custom_dicts))
+        else:
+            with open('custom_dict.txt') as f:
+                word_list = f.readlines()
         for word in word_list:
             if isinstance(word, str) and sys.version_info.major == 2:
                 word = word.decode('utf-8')
             word = word.strip('\n')
             word_end = _custom_dict(word, text, word_end)
     except:
+        print('error')
         pass
 
     tokens = []
