@@ -79,11 +79,15 @@ It will open a shell for us to play with deepcut.
 ```python
 import deepcut
 deepcut.tokenize('ตัดคำได้ดีมาก')
+
+# if use custom dicts from mongodb
+deepcut.tokenize('ตัดคำได้ดีมาก', 'mongo')
 ```
 
 Output will be in list format
 
 ```bash
+['ตัดคำ','ได้','ดี','มาก']
 ['ตัดคำ','ได้','ดี','มาก']
 ```
 
