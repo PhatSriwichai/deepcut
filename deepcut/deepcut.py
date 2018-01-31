@@ -21,7 +21,7 @@ weight_path = os.path.join(module_path, 'weight', 'cnn_without_ne_ab.h5')
 model = get_convo_nn2()
 model.load_weights(weight_path)
 
-def tokenize(text):
+def tokenize(text, word_list=[]):
     """
     Tokenize given Thai text string
 
@@ -67,16 +67,12 @@ def tokenize(text):
     y_predict = (y_predict.ravel() > 0.5).astype(int)
     word_end = list(y_predict[1:]) + [1]
 
-    try:
-        with open('custom_dict.txt') as f:
-            word_list = f.readlines()
-        for word in word_list:
-            if isinstance(word, str) and sys.version_info.major == 2:
-                word = word.decode('utf-8')
-            word = word.strip('\n')
-            word_end = _custom_dict(word, text, word_end)
-    except:
-        pass
+    
+    for word in word_list:
+        if isinstance(word, str) and sys.version_info.major == 2:
+            word = word.decode('utf-8')
+        word = word.strip('\n')
+        word_end = _custom_dict(word, text, word_end)
 
     tokens = []
     word = ''
